@@ -1,0 +1,267 @@
+[
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "module",
+				"type": "address"
+			}
+		],
+		"name": "EVME_ModuleInstalled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "module",
+				"type": "address"
+			}
+		],
+		"name": "EVME_ModuleRemoved",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint8",
+				"name": "roleId",
+				"type": "uint8"
+			}
+		],
+		"name": "EVME_RoleGiven",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "_functionSig",
+				"type": "bytes4"
+			}
+		],
+		"name": "$__dyExtensions",
+		"outputs": [
+			{
+				"internalType": "bytes",
+				"name": "",
+				"type": "bytes"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "_functionSig",
+				"type": "bytes4"
+			}
+		],
+		"name": "$__dyFunctions",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes",
+				"name": "_bytesData",
+				"type": "bytes"
+			}
+		],
+		"name": "$__install",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_module",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_promoCode",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_bytesData",
+				"type": "bytes"
+			}
+		],
+		"name": "$__installModule",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "_module",
+				"type": "address[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "_promoCode",
+				"type": "string[]"
+			},
+			{
+				"internalType": "bytes[]",
+				"name": "_bytesData",
+				"type": "bytes[]"
+			}
+		],
+		"name": "$__installModuleBulk",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_module",
+				"type": "address"
+			}
+		],
+		"name": "$__modules",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_module",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_bytesData",
+				"type": "bytes"
+			}
+		],
+		"name": "$__removeModule",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "_module",
+				"type": "address[]"
+			},
+			{
+				"internalType": "bytes[]",
+				"name": "_bytesData",
+				"type": "bytes[]"
+			}
+		],
+		"name": "$__removeModuleBulk",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "$__role",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_roleID",
+				"type": "uint8"
+			}
+		],
+		"name": "$__setRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "_user",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint8[]",
+				"name": "_roleID",
+				"type": "uint8[]"
+			}
+		],
+		"name": "$__setRoleBulk",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes",
+				"name": "_bytesData",
+				"type": "bytes"
+			}
+		],
+		"name": "$__uninstall",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

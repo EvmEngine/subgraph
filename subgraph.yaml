@@ -1,0 +1,57 @@
+specVersion: 0.0.2
+description: Evm Engine API
+repository: https://github.com/EvmEngine/api-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Factory
+    network: mumbai
+    source:
+      address: '0xd193eF19F7FEEE3B69346ac13ed8d43F5b623320'
+      abi: Factory
+      startBlock: 32060000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Factory
+      abis:
+        - name: Factory
+          file: ./abis/Factory.json
+      eventHandlers:
+        - event: EVME_BaseContractCreated(indexed address)
+          handler: handleNewBaseContract
+        - event: EVME_ModulePublished(indexed address,indexed address,uint256,bytes32,bytes,bytes32,bytes32)
+          handler: handleNewModules
+        - event: EVME_ModuleUpdated(indexed address,bytes32,bytes,bytes32)
+          handler: handleModuleUpdated
+        - event: EVME_ModuleStatusUpdated(indexed address,indexed uint8)
+          handler: handleModuleStatus
+      file: ./src/factory.ts
+templates:
+  - kind: ethereum/contract
+    name: BaseContract
+    network: mumbai
+    source:
+      abi: BaseContract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      file: ./src/basecontract.ts
+      entities:
+        - BaseContracts
+      abis:
+        - name: BaseContract
+          file: ./abis/Base.json
+        - name: Factory
+          file: ./abis/Factory.json
+      eventHandlers:
+        - event: EVME_ModuleInstalled(indexed address)
+          handler: handleModuleInstalled
+        - event: EVME_ModuleRemoved(indexed address)
+          handler: handleModuleRemoved
+        - event: EVME_RoleGiven(indexed address,indexed uint8)
+          handler: handleRoleGiven

@@ -1,0 +1,42 @@
+type Factory @entity {
+  id: ID!
+  totalModules: BigInt
+  totalInstallations: BigInt
+  totalBaseContracts: BigInt
+}
+
+type BaseContract @entity {
+  id: ID!
+  modules: [Module!]
+  users: [UserBaseContracts!] @derivedFrom(field: "base_contract")
+  createdAtTimestamp: BigInt!
+}
+
+type User @entity {
+  id: ID!
+  base_contracts: [UserBaseContracts!]
+}
+
+type UserBaseContracts @entity {
+  id: ID!
+  user: String!
+  role_id: Int!
+  base_contract: [BaseContract!]
+  createdAtTimestamp: BigInt!
+}
+
+type Module @entity {
+  id: ID!
+  title: String!
+  description: String!
+  moduleAddress: String!
+  publisher: String!
+  fee: BigInt!
+  abi: String!
+  status: Int!
+  active_install: BigInt!
+  rating: Int!
+  total_reviews: BigInt!
+  metaDetails: String!
+  createdAtTimestamp: BigInt!
+}
