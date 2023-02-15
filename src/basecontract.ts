@@ -12,7 +12,7 @@ import {
 } from './types/schema'
 import {
   ONE_BI,
-  FACTORY_ADDRESS,
+  FACTORY_ADDRESS
 } from './helpers'
 import { log, BigInt, Address } from '@graphprotocol/graph-ts'
 
