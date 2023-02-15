@@ -1,5 +1,7 @@
 build/
 generated/
+src/types/
+
 
 # Logs
 logs
