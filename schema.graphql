@@ -28,14 +28,13 @@ type UserBaseContracts @entity {
 
 type Module @entity {
   id: ID!
+  namespace: String!
   title: String!
-  description: String!
+  info: String!
   moduleAddress: String!
   publisher: String!
   fee: BigInt!
-  abi: String!
   status: Int!
   active_install: BigInt!
-  metaDetails: String!
   createdAtTimestamp: BigInt!
 }

@@ -8,7 +8,7 @@
     "build": "graph build",
     "create-local": "graph create evmenginedev/evmengine--node http://127.0.0.1:8020",
     "deploy-local": "graph deploy evmenginedev/evmengine --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "deploy": "graph deploy --access-token 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 evmenginedev/evmengine --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --debug",
+    "deploy": "graph deploy --access-token TOKEN evmenginedev/evmengine --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --debug",
     "deploy-staging": "graph deploy evmenginedev/evmengine --ipfs https://api.staging.thegraph.com/ipfs/ --node https://api.staging.thegraph.com/deploy/",
     "watch-local": "graph deploy evmenginedev/evmengine --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001"
   },

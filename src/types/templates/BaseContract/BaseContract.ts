@@ -78,23 +78,36 @@ export class BaseContract extends SmartContract {
     return new BaseContract("BaseContract", address);
   }
 
-  $__dyExtensions(_functionSig: Bytes): Bytes {
-    let result = super.call("$__dyExtensions", [
-      EthereumValue.fromFixedBytes(_functionSig)
-    ]);
+  $__role(_user: Address): i32 {
+    let result = super.call("$__role", [EthereumValue.fromAddress(_user)]);
 
-    return result[0].toBytes();
+    return result[0].toI32();
   }
 
-  try_$__dyExtensions(_functionSig: Bytes): CallResult<Bytes> {
-    let result = super.tryCall("$__dyExtensions", [
-      EthereumValue.fromFixedBytes(_functionSig)
+  try_$__role(_user: Address): CallResult<i32> {
+    let result = super.tryCall("$__role", [EthereumValue.fromAddress(_user)]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toI32());
+  }
+
+  $__modules(_module: Address): boolean {
+    let result = super.call("$__modules", [EthereumValue.fromAddress(_module)]);
+
+    return result[0].toBoolean();
+  }
+
+  try_$__modules(_module: Address): CallResult<boolean> {
+    let result = super.tryCall("$__modules", [
+      EthereumValue.fromAddress(_module)
     ]);
     if (result.reverted) {
       return new CallResult();
     }
     let value = result.value;
-    return CallResult.fromValue(value[0].toBytes());
+    return CallResult.fromValue(value[0].toBoolean());
   }
 
   $__dyFunctions(_functionSig: Bytes): Address {
@@ -116,36 +129,23 @@ export class BaseContract extends SmartContract {
     return CallResult.fromValue(value[0].toAddress());
   }
 
-  $__modules(_module: Address): boolean {
-    let result = super.call("$__modules", [EthereumValue.fromAddress(_module)]);
+  $__dyExtensions(_functionSig: Bytes): Bytes {
+    let result = super.call("$__dyExtensions", [
+      EthereumValue.fromFixedBytes(_functionSig)
+    ]);
 
-    return result[0].toBoolean();
+    return result[0].toBytes();
   }
 
-  try_$__modules(_module: Address): CallResult<boolean> {
-    let result = super.tryCall("$__modules", [
-      EthereumValue.fromAddress(_module)
+  try_$__dyExtensions(_functionSig: Bytes): CallResult<Bytes> {
+    let result = super.tryCall("$__dyExtensions", [
+      EthereumValue.fromFixedBytes(_functionSig)
     ]);
     if (result.reverted) {
       return new CallResult();
     }
     let value = result.value;
-    return CallResult.fromValue(value[0].toBoolean());
-  }
-
-  $__role(_user: Address): i32 {
-    let result = super.call("$__role", [EthereumValue.fromAddress(_user)]);
-
-    return result[0].toI32();
-  }
-
-  try_$__role(_user: Address): CallResult<i32> {
-    let result = super.tryCall("$__role", [EthereumValue.fromAddress(_user)]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toI32());
+    return CallResult.fromValue(value[0].toBytes());
   }
 }
 
@@ -175,6 +175,36 @@ export class $__installCall__Outputs {
   _call: $__installCall;
 
   constructor(call: $__installCall) {
+    this._call = call;
+  }
+}
+
+export class $__uninstallCall extends EthereumCall {
+  get inputs(): $__uninstallCall__Inputs {
+    return new $__uninstallCall__Inputs(this);
+  }
+
+  get outputs(): $__uninstallCall__Outputs {
+    return new $__uninstallCall__Outputs(this);
+  }
+}
+
+export class $__uninstallCall__Inputs {
+  _call: $__uninstallCall;
+
+  constructor(call: $__uninstallCall) {
+    this._call = call;
+  }
+
+  get _bytesData(): Bytes {
+    return this._call.inputValues[0].value.toBytes();
+  }
+}
+
+export class $__uninstallCall__Outputs {
+  _call: $__uninstallCall;
+
+  constructor(call: $__uninstallCall) {
     this._call = call;
   }
 }
@@ -387,36 +417,6 @@ export class $__setRoleBulkCall__Outputs {
   _call: $__setRoleBulkCall;
 
   constructor(call: $__setRoleBulkCall) {
-    this._call = call;
-  }
-}
-
-export class $__uninstallCall extends EthereumCall {
-  get inputs(): $__uninstallCall__Inputs {
-    return new $__uninstallCall__Inputs(this);
-  }
-
-  get outputs(): $__uninstallCall__Outputs {
-    return new $__uninstallCall__Outputs(this);
-  }
-}
-
-export class $__uninstallCall__Inputs {
-  _call: $__uninstallCall;
-
-  constructor(call: $__uninstallCall) {
-    this._call = call;
-  }
-
-  get _bytesData(): Bytes {
-    return this._call.inputValues[0].value.toBytes();
-  }
-}
-
-export class $__uninstallCall__Outputs {
-  _call: $__uninstallCall;
-
-  constructor(call: $__uninstallCall) {
     this._call = call;
   }
 }

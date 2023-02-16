@@ -338,6 +338,15 @@ export class Module extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get namespace(): string {
+    let value = this.get("namespace");
+    return value.toString();
+  }
+
+  set namespace(value: string) {
+    this.set("namespace", Value.fromString(value));
+  }
+
   get title(): string {
     let value = this.get("title");
     return value.toString();
@@ -347,13 +356,13 @@ export class Module extends Entity {
     this.set("title", Value.fromString(value));
   }
 
-  get description(): string {
-    let value = this.get("description");
+  get info(): string {
+    let value = this.get("info");
     return value.toString();
   }
 
-  set description(value: string) {
-    this.set("description", Value.fromString(value));
+  set info(value: string) {
+    this.set("info", Value.fromString(value));
   }
 
   get moduleAddress(): string {
@@ -383,15 +392,6 @@ export class Module extends Entity {
     this.set("fee", Value.fromBigInt(value));
   }
 
-  get abi(): string {
-    let value = this.get("abi");
-    return value.toString();
-  }
-
-  set abi(value: string) {
-    this.set("abi", Value.fromString(value));
-  }
-
   get status(): i32 {
     let value = this.get("status");
     return value.toI32();
@@ -408,15 +408,6 @@ export class Module extends Entity {
 
   set active_install(value: BigInt) {
     this.set("active_install", Value.fromBigInt(value));
-  }
-
-  get metaDetails(): string {
-    let value = this.get("metaDetails");
-    return value.toString();
-  }
-
-  set metaDetails(value: string) {
-    this.set("metaDetails", Value.fromString(value));
   }
 
   get createdAtTimestamp(): BigInt {

@@ -49,25 +49,15 @@ export function handleNewModules(event: EVME_ModulePublished): void {
     factory.totalModules = ZERO_BI;
   } 
 
-  let abi = event.params.abi.toHexString();
-  let metaDetails = event.params.metaDetails.toHexString();
-  if(abi == BLANK_BYTES32){
-    abi = URL.concat('/abi/').concat(event.params.module.toHexString()).concat('.json')
-  }
-  if(metaDetails == BLANK_BYTES32){
-    metaDetails = URL.concat('/meta/').concat(event.params.module.toHexString()).concat('.txt')
-  }
-
   let module = new Module(event.params.module.toHexString())
   module.moduleAddress = event.params.module.toHexString()
   module.publisher = event.params.publisher.toHexString()
+  module.namespace = event.params.namespace.toString()
   module.title = event.params.title.toString()
-  module.description = event.params.description.toString()
+  module.info = event.params.info.toString()
   module.fee = event.params.fee
-  module.abi = abi
   module.status = 1
   module.active_install = ZERO_BI
-  module.metaDetails = metaDetails
   module.createdAtTimestamp = event.block.timestamp
 
   module.save()
@@ -79,8 +69,8 @@ export function handleNewModules(event: EVME_ModulePublished): void {
 export function handleModuleUpdated(event: EVME_ModuleUpdated): void {
   let module = Module.load(event.params.module.toHexString())
   module.title = event.params.title.toString()
-  module.description = event.params.description.toString()
-  module.metaDetails = event.params.metaDetails.toHexString()
+  module.info = event.params.info.toString()
+  module.namespace = event.params.namespace.toHexString()
 
   module.save()
 }

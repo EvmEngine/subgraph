@@ -226,16 +226,12 @@ export class EVME_ModulePublished__Params {
     return this._event.parameters[3].value.toBytes();
   }
 
-  get description(): Bytes {
+  get info(): Bytes {
     return this._event.parameters[4].value.toBytes();
   }
 
-  get abi(): Bytes {
+  get namespace(): Bytes {
     return this._event.parameters[5].value.toBytes();
-  }
-
-  get metaDetails(): Bytes {
-    return this._event.parameters[6].value.toBytes();
   }
 }
 
@@ -282,11 +278,11 @@ export class EVME_ModuleUpdated__Params {
     return this._event.parameters[1].value.toBytes();
   }
 
-  get description(): Bytes {
+  get info(): Bytes {
     return this._event.parameters[2].value.toBytes();
   }
 
-  get metaDetails(): Bytes {
+  get namespace(): Bytes {
     return this._event.parameters[3].value.toBytes();
   }
 }
@@ -353,21 +349,19 @@ export class Factory__getModuleDataResult {
   value0: Address;
   value1: Bytes;
   value2: Bytes;
-  value3: i32;
-  value4: Bytes;
+  value3: Bytes;
+  value4: i32;
   value5: BigInt;
   value6: Bytes;
-  value7: Bytes;
 
   constructor(
     value0: Address,
     value1: Bytes,
     value2: Bytes,
-    value3: i32,
-    value4: Bytes,
+    value3: Bytes,
+    value4: i32,
     value5: BigInt,
-    value6: Bytes,
-    value7: Bytes
+    value6: Bytes
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -376,19 +370,17 @@ export class Factory__getModuleDataResult {
     this.value4 = value4;
     this.value5 = value5;
     this.value6 = value6;
-    this.value7 = value7;
   }
 
   toMap(): TypedMap<string, EthereumValue> {
     let map = new TypedMap<string, EthereumValue>();
     map.set("value0", EthereumValue.fromAddress(this.value0));
     map.set("value1", EthereumValue.fromFixedBytes(this.value1));
-    map.set("value2", EthereumValue.fromBytes(this.value2));
-    map.set("value3", EthereumValue.fromI32(this.value3));
-    map.set("value4", EthereumValue.fromFixedBytes(this.value4));
+    map.set("value2", EthereumValue.fromFixedBytes(this.value2));
+    map.set("value3", EthereumValue.fromBytes(this.value3));
+    map.set("value4", EthereumValue.fromI32(this.value4));
     map.set("value5", EthereumValue.fromUnsignedBigInt(this.value5));
     map.set("value6", EthereumValue.fromBytes(this.value6));
-    map.set("value7", EthereumValue.fromFixedBytes(this.value7));
     return map;
   }
 }
@@ -434,21 +426,6 @@ export class Factory extends SmartContract {
     return CallResult.fromValue(value[0].toBoolean());
   }
 
-  deployBaseContract(): Address {
-    let result = super.call("deployBaseContract", []);
-
-    return result[0].toAddress();
-  }
-
-  try_deployBaseContract(): CallResult<Address> {
-    let result = super.tryCall("deployBaseContract", []);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toAddress());
-  }
-
   fee_receipt(): Address {
     let result = super.call("fee_receipt", []);
 
@@ -477,97 +454,6 @@ export class Factory extends SmartContract {
     }
     let value = result.value;
     return CallResult.fromValue(value[0].toAddress());
-  }
-
-  getModuleData(_module: Address): Factory__getModuleDataResult {
-    let result = super.call("getModuleData", [
-      EthereumValue.fromAddress(_module)
-    ]);
-
-    return new Factory__getModuleDataResult(
-      result[0].toAddress(),
-      result[1].toBytes(),
-      result[2].toBytes(),
-      result[3].toI32(),
-      result[4].toBytes(),
-      result[5].toBigInt(),
-      result[6].toBytes(),
-      result[7].toBytes()
-    );
-  }
-
-  try_getModuleData(
-    _module: Address
-  ): CallResult<Factory__getModuleDataResult> {
-    let result = super.tryCall("getModuleData", [
-      EthereumValue.fromAddress(_module)
-    ]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(
-      new Factory__getModuleDataResult(
-        value[0].toAddress(),
-        value[1].toBytes(),
-        value[2].toBytes(),
-        value[3].toI32(),
-        value[4].toBytes(),
-        value[5].toBigInt(),
-        value[6].toBytes(),
-        value[7].toBytes()
-      )
-    );
-  }
-
-  getModuleInterface(_module: Address): Factory__getModuleInterfaceResult {
-    let result = super.call("getModuleInterface", [
-      EthereumValue.fromAddress(_module)
-    ]);
-
-    return new Factory__getModuleInterfaceResult(
-      result[0].toI32(),
-      result[1].toBytes()
-    );
-  }
-
-  try_getModuleInterface(
-    _module: Address
-  ): CallResult<Factory__getModuleInterfaceResult> {
-    let result = super.tryCall("getModuleInterface", [
-      EthereumValue.fromAddress(_module)
-    ]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(
-      new Factory__getModuleInterfaceResult(
-        value[0].toI32(),
-        value[1].toBytes()
-      )
-    );
-  }
-
-  iModuleProcess(_module: Address, _promoCode: string): Bytes {
-    let result = super.call("iModuleProcess", [
-      EthereumValue.fromAddress(_module),
-      EthereumValue.fromString(_promoCode)
-    ]);
-
-    return result[0].toBytes();
-  }
-
-  try_iModuleProcess(_module: Address, _promoCode: string): CallResult<Bytes> {
-    let result = super.tryCall("iModuleProcess", [
-      EthereumValue.fromAddress(_module),
-      EthereumValue.fromString(_promoCode)
-    ]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toBytes());
   }
 
   installerModule(): Address {
@@ -648,80 +534,314 @@ export class Factory extends SmartContract {
     let value = result.value;
     return CallResult.fromValue(value[0].toBytes());
   }
-}
 
-export class AddModulePromoCall extends EthereumCall {
-  get inputs(): AddModulePromoCall__Inputs {
-    return new AddModulePromoCall__Inputs(this);
+  getModuleData(_module: Address): Factory__getModuleDataResult {
+    let result = super.call("getModuleData", [
+      EthereumValue.fromAddress(_module)
+    ]);
+
+    return new Factory__getModuleDataResult(
+      result[0].toAddress(),
+      result[1].toBytes(),
+      result[2].toBytes(),
+      result[3].toBytes(),
+      result[4].toI32(),
+      result[5].toBigInt(),
+      result[6].toBytes()
+    );
   }
 
-  get outputs(): AddModulePromoCall__Outputs {
-    return new AddModulePromoCall__Outputs(this);
+  try_getModuleData(
+    _module: Address
+  ): CallResult<Factory__getModuleDataResult> {
+    let result = super.tryCall("getModuleData", [
+      EthereumValue.fromAddress(_module)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(
+      new Factory__getModuleDataResult(
+        value[0].toAddress(),
+        value[1].toBytes(),
+        value[2].toBytes(),
+        value[3].toBytes(),
+        value[4].toI32(),
+        value[5].toBigInt(),
+        value[6].toBytes()
+      )
+    );
+  }
+
+  getModuleInterface(_module: Address): Factory__getModuleInterfaceResult {
+    let result = super.call("getModuleInterface", [
+      EthereumValue.fromAddress(_module)
+    ]);
+
+    return new Factory__getModuleInterfaceResult(
+      result[0].toI32(),
+      result[1].toBytes()
+    );
+  }
+
+  try_getModuleInterface(
+    _module: Address
+  ): CallResult<Factory__getModuleInterfaceResult> {
+    let result = super.tryCall("getModuleInterface", [
+      EthereumValue.fromAddress(_module)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(
+      new Factory__getModuleInterfaceResult(
+        value[0].toI32(),
+        value[1].toBytes()
+      )
+    );
+  }
+
+  iModuleProcess(_module: Address, _promoCode: string): Bytes {
+    let result = super.call("iModuleProcess", [
+      EthereumValue.fromAddress(_module),
+      EthereumValue.fromString(_promoCode)
+    ]);
+
+    return result[0].toBytes();
+  }
+
+  try_iModuleProcess(_module: Address, _promoCode: string): CallResult<Bytes> {
+    let result = super.tryCall("iModuleProcess", [
+      EthereumValue.fromAddress(_module),
+      EthereumValue.fromString(_promoCode)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBytes());
+  }
+
+  deployBaseContract(): Address {
+    let result = super.call("deployBaseContract", []);
+
+    return result[0].toAddress();
+  }
+
+  try_deployBaseContract(): CallResult<Address> {
+    let result = super.tryCall("deployBaseContract", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toAddress());
   }
 }
 
-export class AddModulePromoCall__Inputs {
-  _call: AddModulePromoCall;
+export class RenounceOwnershipCall extends EthereumCall {
+  get inputs(): RenounceOwnershipCall__Inputs {
+    return new RenounceOwnershipCall__Inputs(this);
+  }
 
-  constructor(call: AddModulePromoCall) {
+  get outputs(): RenounceOwnershipCall__Outputs {
+    return new RenounceOwnershipCall__Outputs(this);
+  }
+}
+
+export class RenounceOwnershipCall__Inputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class RenounceOwnershipCall__Outputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class TransferOwnershipCall extends EthereumCall {
+  get inputs(): TransferOwnershipCall__Inputs {
+    return new TransferOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): TransferOwnershipCall__Outputs {
+    return new TransferOwnershipCall__Outputs(this);
+  }
+}
+
+export class TransferOwnershipCall__Inputs {
+  _call: TransferOwnershipCall;
+
+  constructor(call: TransferOwnershipCall) {
+    this._call = call;
+  }
+
+  get newOwner(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class TransferOwnershipCall__Outputs {
+  _call: TransferOwnershipCall;
+
+  constructor(call: TransferOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateInstallerModuleCall extends EthereumCall {
+  get inputs(): UpdateInstallerModuleCall__Inputs {
+    return new UpdateInstallerModuleCall__Inputs(this);
+  }
+
+  get outputs(): UpdateInstallerModuleCall__Outputs {
+    return new UpdateInstallerModuleCall__Outputs(this);
+  }
+}
+
+export class UpdateInstallerModuleCall__Inputs {
+  _call: UpdateInstallerModuleCall;
+
+  constructor(call: UpdateInstallerModuleCall) {
     this._call = call;
   }
 
   get _module(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
-
-  get _promoCode(): string {
-    return this._call.inputValues[1].value.toString();
-  }
-
-  get _discount(): i32 {
-    return this._call.inputValues[2].value.toI32();
-  }
 }
 
-export class AddModulePromoCall__Outputs {
-  _call: AddModulePromoCall;
+export class UpdateInstallerModuleCall__Outputs {
+  _call: UpdateInstallerModuleCall;
 
-  constructor(call: AddModulePromoCall) {
+  constructor(call: UpdateInstallerModuleCall) {
     this._call = call;
   }
 }
 
-export class AddModulePromoBulkCall extends EthereumCall {
-  get inputs(): AddModulePromoBulkCall__Inputs {
-    return new AddModulePromoBulkCall__Inputs(this);
+export class UpdateFeeTokenCall extends EthereumCall {
+  get inputs(): UpdateFeeTokenCall__Inputs {
+    return new UpdateFeeTokenCall__Inputs(this);
   }
 
-  get outputs(): AddModulePromoBulkCall__Outputs {
-    return new AddModulePromoBulkCall__Outputs(this);
+  get outputs(): UpdateFeeTokenCall__Outputs {
+    return new UpdateFeeTokenCall__Outputs(this);
   }
 }
 
-export class AddModulePromoBulkCall__Inputs {
-  _call: AddModulePromoBulkCall;
+export class UpdateFeeTokenCall__Inputs {
+  _call: UpdateFeeTokenCall;
 
-  constructor(call: AddModulePromoBulkCall) {
+  constructor(call: UpdateFeeTokenCall) {
     this._call = call;
   }
 
-  get _module(): Address {
+  get _token(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
+}
 
-  get _promoCode(): Array<string> {
-    return this._call.inputValues[1].value.toStringArray();
-  }
+export class UpdateFeeTokenCall__Outputs {
+  _call: UpdateFeeTokenCall;
 
-  get _discount(): Array<i32> {
-    return this._call.inputValues[2].value.toI32Array();
+  constructor(call: UpdateFeeTokenCall) {
+    this._call = call;
   }
 }
 
-export class AddModulePromoBulkCall__Outputs {
-  _call: AddModulePromoBulkCall;
+export class UpdatePublishFeeCall extends EthereumCall {
+  get inputs(): UpdatePublishFeeCall__Inputs {
+    return new UpdatePublishFeeCall__Inputs(this);
+  }
 
-  constructor(call: AddModulePromoBulkCall) {
+  get outputs(): UpdatePublishFeeCall__Outputs {
+    return new UpdatePublishFeeCall__Outputs(this);
+  }
+}
+
+export class UpdatePublishFeeCall__Inputs {
+  _call: UpdatePublishFeeCall;
+
+  constructor(call: UpdatePublishFeeCall) {
+    this._call = call;
+  }
+
+  get _fee(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class UpdatePublishFeeCall__Outputs {
+  _call: UpdatePublishFeeCall;
+
+  constructor(call: UpdatePublishFeeCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateModuleFeePercentageCall extends EthereumCall {
+  get inputs(): UpdateModuleFeePercentageCall__Inputs {
+    return new UpdateModuleFeePercentageCall__Inputs(this);
+  }
+
+  get outputs(): UpdateModuleFeePercentageCall__Outputs {
+    return new UpdateModuleFeePercentageCall__Outputs(this);
+  }
+}
+
+export class UpdateModuleFeePercentageCall__Inputs {
+  _call: UpdateModuleFeePercentageCall;
+
+  constructor(call: UpdateModuleFeePercentageCall) {
+    this._call = call;
+  }
+
+  get _fee(): i32 {
+    return this._call.inputValues[0].value.toI32();
+  }
+}
+
+export class UpdateModuleFeePercentageCall__Outputs {
+  _call: UpdateModuleFeePercentageCall;
+
+  constructor(call: UpdateModuleFeePercentageCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateFeeReceiptCall extends EthereumCall {
+  get inputs(): UpdateFeeReceiptCall__Inputs {
+    return new UpdateFeeReceiptCall__Inputs(this);
+  }
+
+  get outputs(): UpdateFeeReceiptCall__Outputs {
+    return new UpdateFeeReceiptCall__Outputs(this);
+  }
+}
+
+export class UpdateFeeReceiptCall__Inputs {
+  _call: UpdateFeeReceiptCall;
+
+  constructor(call: UpdateFeeReceiptCall) {
+    this._call = call;
+  }
+
+  get _receipt(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class UpdateFeeReceiptCall__Outputs {
+  _call: UpdateFeeReceiptCall;
+
+  constructor(call: UpdateFeeReceiptCall) {
     this._call = call;
   }
 }
@@ -786,71 +906,33 @@ export class DelistModuleCall__Outputs {
   }
 }
 
-export class DeployBaseContractCall extends EthereumCall {
-  get inputs(): DeployBaseContractCall__Inputs {
-    return new DeployBaseContractCall__Inputs(this);
+export class UnDelistModuleCall extends EthereumCall {
+  get inputs(): UnDelistModuleCall__Inputs {
+    return new UnDelistModuleCall__Inputs(this);
   }
 
-  get outputs(): DeployBaseContractCall__Outputs {
-    return new DeployBaseContractCall__Outputs(this);
-  }
-}
-
-export class DeployBaseContractCall__Inputs {
-  _call: DeployBaseContractCall;
-
-  constructor(call: DeployBaseContractCall) {
-    this._call = call;
+  get outputs(): UnDelistModuleCall__Outputs {
+    return new UnDelistModuleCall__Outputs(this);
   }
 }
 
-export class DeployBaseContractCall__Outputs {
-  _call: DeployBaseContractCall;
+export class UnDelistModuleCall__Inputs {
+  _call: UnDelistModuleCall;
 
-  constructor(call: DeployBaseContractCall) {
-    this._call = call;
-  }
-
-  get _base_contract(): Address {
-    return this._call.outputValues[0].value.toAddress();
-  }
-}
-
-export class IModuleProcessCall extends EthereumCall {
-  get inputs(): IModuleProcessCall__Inputs {
-    return new IModuleProcessCall__Inputs(this);
-  }
-
-  get outputs(): IModuleProcessCall__Outputs {
-    return new IModuleProcessCall__Outputs(this);
-  }
-}
-
-export class IModuleProcessCall__Inputs {
-  _call: IModuleProcessCall;
-
-  constructor(call: IModuleProcessCall) {
+  constructor(call: UnDelistModuleCall) {
     this._call = call;
   }
 
   get _module(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
-
-  get _promoCode(): string {
-    return this._call.inputValues[1].value.toString();
-  }
 }
 
-export class IModuleProcessCall__Outputs {
-  _call: IModuleProcessCall;
+export class UnDelistModuleCall__Outputs {
+  _call: UnDelistModuleCall;
 
-  constructor(call: IModuleProcessCall) {
+  constructor(call: UnDelistModuleCall) {
     this._call = call;
-  }
-
-  get value0(): Bytes {
-    return this._call.outputValues[0].value.toBytes();
   }
 }
 
@@ -901,19 +983,19 @@ export class PublishModuleCall__Inputs {
     this._call = call;
   }
 
-  get _module(): Address {
+  get _publisher(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _title(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
+  get _module(): Address {
+    return this._call.inputValues[1].value.toAddress();
   }
 
-  get _description(): Bytes {
+  get _title(): Bytes {
     return this._call.inputValues[2].value.toBytes();
   }
 
-  get _ABI(): Bytes {
+  get _namespace(): Bytes {
     return this._call.inputValues[3].value.toBytes();
   }
 
@@ -921,11 +1003,11 @@ export class PublishModuleCall__Inputs {
     return this._call.inputValues[4].value.toBigInt();
   }
 
-  get _interfaceBytes(): Bytes {
+  get _info(): Bytes {
     return this._call.inputValues[5].value.toBytes();
   }
 
-  get _metaDetails(): Bytes {
+  get _interfaceBytes(): Bytes {
     return this._call.inputValues[6].value.toBytes();
   }
 }
@@ -938,20 +1020,20 @@ export class PublishModuleCall__Outputs {
   }
 }
 
-export class RemoveModulePromoCall extends EthereumCall {
-  get inputs(): RemoveModulePromoCall__Inputs {
-    return new RemoveModulePromoCall__Inputs(this);
+export class IModuleProcessCall extends EthereumCall {
+  get inputs(): IModuleProcessCall__Inputs {
+    return new IModuleProcessCall__Inputs(this);
   }
 
-  get outputs(): RemoveModulePromoCall__Outputs {
-    return new RemoveModulePromoCall__Outputs(this);
+  get outputs(): IModuleProcessCall__Outputs {
+    return new IModuleProcessCall__Outputs(this);
   }
 }
 
-export class RemoveModulePromoCall__Inputs {
-  _call: RemoveModulePromoCall;
+export class IModuleProcessCall__Inputs {
+  _call: IModuleProcessCall;
 
-  constructor(call: RemoveModulePromoCall) {
+  constructor(call: IModuleProcessCall) {
     this._call = call;
   }
 
@@ -964,28 +1046,62 @@ export class RemoveModulePromoCall__Inputs {
   }
 }
 
-export class RemoveModulePromoCall__Outputs {
-  _call: RemoveModulePromoCall;
+export class IModuleProcessCall__Outputs {
+  _call: IModuleProcessCall;
 
-  constructor(call: RemoveModulePromoCall) {
+  constructor(call: IModuleProcessCall) {
+    this._call = call;
+  }
+
+  get value0(): Bytes {
+    return this._call.outputValues[0].value.toBytes();
+  }
+}
+
+export class DeployBaseContractCall extends EthereumCall {
+  get inputs(): DeployBaseContractCall__Inputs {
+    return new DeployBaseContractCall__Inputs(this);
+  }
+
+  get outputs(): DeployBaseContractCall__Outputs {
+    return new DeployBaseContractCall__Outputs(this);
+  }
+}
+
+export class DeployBaseContractCall__Inputs {
+  _call: DeployBaseContractCall;
+
+  constructor(call: DeployBaseContractCall) {
     this._call = call;
   }
 }
 
-export class RemoveModulePromoBulkCall extends EthereumCall {
-  get inputs(): RemoveModulePromoBulkCall__Inputs {
-    return new RemoveModulePromoBulkCall__Inputs(this);
+export class DeployBaseContractCall__Outputs {
+  _call: DeployBaseContractCall;
+
+  constructor(call: DeployBaseContractCall) {
+    this._call = call;
   }
 
-  get outputs(): RemoveModulePromoBulkCall__Outputs {
-    return new RemoveModulePromoBulkCall__Outputs(this);
+  get _base_contract(): Address {
+    return this._call.outputValues[0].value.toAddress();
   }
 }
 
-export class RemoveModulePromoBulkCall__Inputs {
-  _call: RemoveModulePromoBulkCall;
+export class UpdateModuleStatusCall extends EthereumCall {
+  get inputs(): UpdateModuleStatusCall__Inputs {
+    return new UpdateModuleStatusCall__Inputs(this);
+  }
 
-  constructor(call: RemoveModulePromoBulkCall) {
+  get outputs(): UpdateModuleStatusCall__Outputs {
+    return new UpdateModuleStatusCall__Outputs(this);
+  }
+}
+
+export class UpdateModuleStatusCall__Inputs {
+  _call: UpdateModuleStatusCall;
+
+  constructor(call: UpdateModuleStatusCall) {
     this._call = call;
   }
 
@@ -993,41 +1109,15 @@ export class RemoveModulePromoBulkCall__Inputs {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _promoCode(): Array<string> {
-    return this._call.inputValues[1].value.toStringArray();
+  get _disable(): boolean {
+    return this._call.inputValues[1].value.toBoolean();
   }
 }
 
-export class RemoveModulePromoBulkCall__Outputs {
-  _call: RemoveModulePromoBulkCall;
+export class UpdateModuleStatusCall__Outputs {
+  _call: UpdateModuleStatusCall;
 
-  constructor(call: RemoveModulePromoBulkCall) {
-    this._call = call;
-  }
-}
-
-export class RenounceOwnershipCall extends EthereumCall {
-  get inputs(): RenounceOwnershipCall__Inputs {
-    return new RenounceOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): RenounceOwnershipCall__Outputs {
-    return new RenounceOwnershipCall__Outputs(this);
-  }
-}
-
-export class RenounceOwnershipCall__Inputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class RenounceOwnershipCall__Outputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
+  constructor(call: UpdateModuleStatusCall) {
     this._call = call;
   }
 }
@@ -1057,11 +1147,11 @@ export class RequestModuleUpdateCall__Inputs {
     return this._call.inputValues[1].value.toBytes();
   }
 
-  get _description(): Bytes {
+  get _info(): Bytes {
     return this._call.inputValues[2].value.toBytes();
   }
 
-  get _metaDetails(): Bytes {
+  get _namespace(): Bytes {
     return this._call.inputValues[3].value.toBytes();
   }
 }
@@ -1070,220 +1160,6 @@ export class RequestModuleUpdateCall__Outputs {
   _call: RequestModuleUpdateCall;
 
   constructor(call: RequestModuleUpdateCall) {
-    this._call = call;
-  }
-}
-
-export class TransferOwnershipCall extends EthereumCall {
-  get inputs(): TransferOwnershipCall__Inputs {
-    return new TransferOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): TransferOwnershipCall__Outputs {
-    return new TransferOwnershipCall__Outputs(this);
-  }
-}
-
-export class TransferOwnershipCall__Inputs {
-  _call: TransferOwnershipCall;
-
-  constructor(call: TransferOwnershipCall) {
-    this._call = call;
-  }
-
-  get newOwner(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class TransferOwnershipCall__Outputs {
-  _call: TransferOwnershipCall;
-
-  constructor(call: TransferOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class UnDelistModuleCall extends EthereumCall {
-  get inputs(): UnDelistModuleCall__Inputs {
-    return new UnDelistModuleCall__Inputs(this);
-  }
-
-  get outputs(): UnDelistModuleCall__Outputs {
-    return new UnDelistModuleCall__Outputs(this);
-  }
-}
-
-export class UnDelistModuleCall__Inputs {
-  _call: UnDelistModuleCall;
-
-  constructor(call: UnDelistModuleCall) {
-    this._call = call;
-  }
-
-  get _module(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class UnDelistModuleCall__Outputs {
-  _call: UnDelistModuleCall;
-
-  constructor(call: UnDelistModuleCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateFeeReceiptCall extends EthereumCall {
-  get inputs(): UpdateFeeReceiptCall__Inputs {
-    return new UpdateFeeReceiptCall__Inputs(this);
-  }
-
-  get outputs(): UpdateFeeReceiptCall__Outputs {
-    return new UpdateFeeReceiptCall__Outputs(this);
-  }
-}
-
-export class UpdateFeeReceiptCall__Inputs {
-  _call: UpdateFeeReceiptCall;
-
-  constructor(call: UpdateFeeReceiptCall) {
-    this._call = call;
-  }
-
-  get _receipt(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class UpdateFeeReceiptCall__Outputs {
-  _call: UpdateFeeReceiptCall;
-
-  constructor(call: UpdateFeeReceiptCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateFeeTokenCall extends EthereumCall {
-  get inputs(): UpdateFeeTokenCall__Inputs {
-    return new UpdateFeeTokenCall__Inputs(this);
-  }
-
-  get outputs(): UpdateFeeTokenCall__Outputs {
-    return new UpdateFeeTokenCall__Outputs(this);
-  }
-}
-
-export class UpdateFeeTokenCall__Inputs {
-  _call: UpdateFeeTokenCall;
-
-  constructor(call: UpdateFeeTokenCall) {
-    this._call = call;
-  }
-
-  get _token(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class UpdateFeeTokenCall__Outputs {
-  _call: UpdateFeeTokenCall;
-
-  constructor(call: UpdateFeeTokenCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateInstallerModuleCall extends EthereumCall {
-  get inputs(): UpdateInstallerModuleCall__Inputs {
-    return new UpdateInstallerModuleCall__Inputs(this);
-  }
-
-  get outputs(): UpdateInstallerModuleCall__Outputs {
-    return new UpdateInstallerModuleCall__Outputs(this);
-  }
-}
-
-export class UpdateInstallerModuleCall__Inputs {
-  _call: UpdateInstallerModuleCall;
-
-  constructor(call: UpdateInstallerModuleCall) {
-    this._call = call;
-  }
-
-  get _module(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class UpdateInstallerModuleCall__Outputs {
-  _call: UpdateInstallerModuleCall;
-
-  constructor(call: UpdateInstallerModuleCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateModuleFeeCall extends EthereumCall {
-  get inputs(): UpdateModuleFeeCall__Inputs {
-    return new UpdateModuleFeeCall__Inputs(this);
-  }
-
-  get outputs(): UpdateModuleFeeCall__Outputs {
-    return new UpdateModuleFeeCall__Outputs(this);
-  }
-}
-
-export class UpdateModuleFeeCall__Inputs {
-  _call: UpdateModuleFeeCall;
-
-  constructor(call: UpdateModuleFeeCall) {
-    this._call = call;
-  }
-
-  get _module(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _fee(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-}
-
-export class UpdateModuleFeeCall__Outputs {
-  _call: UpdateModuleFeeCall;
-
-  constructor(call: UpdateModuleFeeCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateModuleFeePercentageCall extends EthereumCall {
-  get inputs(): UpdateModuleFeePercentageCall__Inputs {
-    return new UpdateModuleFeePercentageCall__Inputs(this);
-  }
-
-  get outputs(): UpdateModuleFeePercentageCall__Outputs {
-    return new UpdateModuleFeePercentageCall__Outputs(this);
-  }
-}
-
-export class UpdateModuleFeePercentageCall__Inputs {
-  _call: UpdateModuleFeePercentageCall;
-
-  constructor(call: UpdateModuleFeePercentageCall) {
-    this._call = call;
-  }
-
-  get _fee(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-}
-
-export class UpdateModuleFeePercentageCall__Outputs {
-  _call: UpdateModuleFeePercentageCall;
-
-  constructor(call: UpdateModuleFeePercentageCall) {
     this._call = call;
   }
 }
@@ -1322,20 +1198,20 @@ export class UpdateModulePublisherCall__Outputs {
   }
 }
 
-export class UpdateModuleStatusCall extends EthereumCall {
-  get inputs(): UpdateModuleStatusCall__Inputs {
-    return new UpdateModuleStatusCall__Inputs(this);
+export class UpdateModuleFeeCall extends EthereumCall {
+  get inputs(): UpdateModuleFeeCall__Inputs {
+    return new UpdateModuleFeeCall__Inputs(this);
   }
 
-  get outputs(): UpdateModuleStatusCall__Outputs {
-    return new UpdateModuleStatusCall__Outputs(this);
+  get outputs(): UpdateModuleFeeCall__Outputs {
+    return new UpdateModuleFeeCall__Outputs(this);
   }
 }
 
-export class UpdateModuleStatusCall__Inputs {
-  _call: UpdateModuleStatusCall;
+export class UpdateModuleFeeCall__Inputs {
+  _call: UpdateModuleFeeCall;
 
-  constructor(call: UpdateModuleStatusCall) {
+  constructor(call: UpdateModuleFeeCall) {
     this._call = call;
   }
 
@@ -1343,45 +1219,159 @@ export class UpdateModuleStatusCall__Inputs {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _disable(): boolean {
-    return this._call.inputValues[1].value.toBoolean();
-  }
-}
-
-export class UpdateModuleStatusCall__Outputs {
-  _call: UpdateModuleStatusCall;
-
-  constructor(call: UpdateModuleStatusCall) {
-    this._call = call;
-  }
-}
-
-export class UpdatePublishFeeCall extends EthereumCall {
-  get inputs(): UpdatePublishFeeCall__Inputs {
-    return new UpdatePublishFeeCall__Inputs(this);
-  }
-
-  get outputs(): UpdatePublishFeeCall__Outputs {
-    return new UpdatePublishFeeCall__Outputs(this);
-  }
-}
-
-export class UpdatePublishFeeCall__Inputs {
-  _call: UpdatePublishFeeCall;
-
-  constructor(call: UpdatePublishFeeCall) {
-    this._call = call;
-  }
-
   get _fee(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
+    return this._call.inputValues[1].value.toBigInt();
   }
 }
 
-export class UpdatePublishFeeCall__Outputs {
-  _call: UpdatePublishFeeCall;
+export class UpdateModuleFeeCall__Outputs {
+  _call: UpdateModuleFeeCall;
 
-  constructor(call: UpdatePublishFeeCall) {
+  constructor(call: UpdateModuleFeeCall) {
+    this._call = call;
+  }
+}
+
+export class AddModulePromoCall extends EthereumCall {
+  get inputs(): AddModulePromoCall__Inputs {
+    return new AddModulePromoCall__Inputs(this);
+  }
+
+  get outputs(): AddModulePromoCall__Outputs {
+    return new AddModulePromoCall__Outputs(this);
+  }
+}
+
+export class AddModulePromoCall__Inputs {
+  _call: AddModulePromoCall;
+
+  constructor(call: AddModulePromoCall) {
+    this._call = call;
+  }
+
+  get _module(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _promoCode(): string {
+    return this._call.inputValues[1].value.toString();
+  }
+
+  get _discount(): i32 {
+    return this._call.inputValues[2].value.toI32();
+  }
+}
+
+export class AddModulePromoCall__Outputs {
+  _call: AddModulePromoCall;
+
+  constructor(call: AddModulePromoCall) {
+    this._call = call;
+  }
+}
+
+export class RemoveModulePromoCall extends EthereumCall {
+  get inputs(): RemoveModulePromoCall__Inputs {
+    return new RemoveModulePromoCall__Inputs(this);
+  }
+
+  get outputs(): RemoveModulePromoCall__Outputs {
+    return new RemoveModulePromoCall__Outputs(this);
+  }
+}
+
+export class RemoveModulePromoCall__Inputs {
+  _call: RemoveModulePromoCall;
+
+  constructor(call: RemoveModulePromoCall) {
+    this._call = call;
+  }
+
+  get _module(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _promoCode(): string {
+    return this._call.inputValues[1].value.toString();
+  }
+}
+
+export class RemoveModulePromoCall__Outputs {
+  _call: RemoveModulePromoCall;
+
+  constructor(call: RemoveModulePromoCall) {
+    this._call = call;
+  }
+}
+
+export class AddModulePromoBulkCall extends EthereumCall {
+  get inputs(): AddModulePromoBulkCall__Inputs {
+    return new AddModulePromoBulkCall__Inputs(this);
+  }
+
+  get outputs(): AddModulePromoBulkCall__Outputs {
+    return new AddModulePromoBulkCall__Outputs(this);
+  }
+}
+
+export class AddModulePromoBulkCall__Inputs {
+  _call: AddModulePromoBulkCall;
+
+  constructor(call: AddModulePromoBulkCall) {
+    this._call = call;
+  }
+
+  get _module(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _promoCode(): Array<string> {
+    return this._call.inputValues[1].value.toStringArray();
+  }
+
+  get _discount(): Array<i32> {
+    return this._call.inputValues[2].value.toI32Array();
+  }
+}
+
+export class AddModulePromoBulkCall__Outputs {
+  _call: AddModulePromoBulkCall;
+
+  constructor(call: AddModulePromoBulkCall) {
+    this._call = call;
+  }
+}
+
+export class RemoveModulePromoBulkCall extends EthereumCall {
+  get inputs(): RemoveModulePromoBulkCall__Inputs {
+    return new RemoveModulePromoBulkCall__Inputs(this);
+  }
+
+  get outputs(): RemoveModulePromoBulkCall__Outputs {
+    return new RemoveModulePromoBulkCall__Outputs(this);
+  }
+}
+
+export class RemoveModulePromoBulkCall__Inputs {
+  _call: RemoveModulePromoBulkCall;
+
+  constructor(call: RemoveModulePromoBulkCall) {
+    this._call = call;
+  }
+
+  get _module(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _promoCode(): Array<string> {
+    return this._call.inputValues[1].value.toStringArray();
+  }
+}
+
+export class RemoveModulePromoBulkCall__Outputs {
+  _call: RemoveModulePromoBulkCall;
+
+  constructor(call: RemoveModulePromoBulkCall) {
     this._call = call;
   }
 }
