@@ -42,6 +42,23 @@ export class Factory extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get installerModule(): string | null {
+    let value = this.get("installerModule");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set installerModule(value: string | null) {
+    if (value === null) {
+      this.unset("installerModule");
+    } else {
+      this.set("installerModule", Value.fromString(value as string));
+    }
+  }
+
   get totalModules(): BigInt | null {
     let value = this.get("totalModules");
     if (value === null) {
@@ -391,24 +408,6 @@ export class Module extends Entity {
 
   set active_install(value: BigInt) {
     this.set("active_install", Value.fromBigInt(value));
-  }
-
-  get rating(): i32 {
-    let value = this.get("rating");
-    return value.toI32();
-  }
-
-  set rating(value: i32) {
-    this.set("rating", Value.fromI32(value));
-  }
-
-  get total_reviews(): BigInt {
-    let value = this.get("total_reviews");
-    return value.toBigInt();
-  }
-
-  set total_reviews(value: BigInt) {
-    this.set("total_reviews", Value.fromBigInt(value));
   }
 
   get metaDetails(): string {

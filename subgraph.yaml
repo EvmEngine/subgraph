@@ -8,9 +8,9 @@ dataSources:
     name: Factory
     network: mumbai
     source:
-      address: '0xd193eF19F7FEEE3B69346ac13ed8d43F5b623320'
+      address: '0x550B5E454a1778B79b306AA9847a53c888A1911e'
       abi: Factory
-      startBlock: 32060000
+      startBlock: 32098600
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
@@ -29,6 +29,8 @@ dataSources:
           handler: handleModuleUpdated
         - event: EVME_ModuleStatusUpdated(indexed address,indexed uint8)
           handler: handleModuleStatus
+        - event: EVME_ModuleInstallerUpdated(indexed address)
+          handler: handleModuleInstallerUpdate
       file: ./src/factory.ts
 templates:
   - kind: ethereum/contract

@@ -2,7 +2,8 @@ import {
   EVME_BaseContractCreated,
   EVME_ModulePublished,
   EVME_ModuleUpdated,
-  EVME_ModuleStatusUpdated
+  EVME_ModuleStatusUpdated,
+  EVME_ModuleInstallerUpdated
 } from './types/Factory/Factory'
 import { 
   Factory, 
@@ -66,8 +67,6 @@ export function handleNewModules(event: EVME_ModulePublished): void {
   module.abi = abi
   module.status = 1
   module.active_install = ZERO_BI
-  module.rating = 0
-  module.total_reviews = ZERO_BI
   module.metaDetails = metaDetails
   module.createdAtTimestamp = event.block.timestamp
 
@@ -91,4 +90,13 @@ export function handleModuleStatus(event: EVME_ModuleStatusUpdated): void {
   module.status = event.params.status
 
   module.save()
+}
+
+export function handleModuleInstallerUpdate(event: EVME_ModuleInstallerUpdated): void {
+  let factory = Factory.load(FACTORY_ADDRESS)
+  let module = Module.load(event.params.module.toHexString())
+
+  factory.installerModule = module.id
+
+  factory.save()
 }

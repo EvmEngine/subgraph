@@ -1,5 +1,6 @@
 type Factory @entity {
   id: ID!
+  installerModule: Module
   totalModules: BigInt
   totalInstallations: BigInt
   totalBaseContracts: BigInt
@@ -35,8 +36,6 @@ type Module @entity {
   abi: String!
   status: Int!
   active_install: BigInt!
-  rating: Int!
-  total_reviews: BigInt!
   metaDetails: String!
   createdAtTimestamp: BigInt!
 }
