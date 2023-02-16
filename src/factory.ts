@@ -3,7 +3,8 @@ import {
   EVME_ModulePublished,
   EVME_ModuleUpdated,
   EVME_ModuleStatusUpdated,
-  EVME_ModuleInstallerUpdated
+  EVME_ModuleInstallerUpdated,
+  EVME_ModuleTags
 } from './types/Factory/Factory'
 import { 
   Factory, 
@@ -89,4 +90,11 @@ export function handleModuleInstallerUpdate(event: EVME_ModuleInstallerUpdated):
   factory.installerModule = module.id
 
   factory.save()
+}
+
+export function handleModuleTags(event: EVME_ModuleTags): void {
+  let module = Module.load(event.params.module.toHexString())
+  module.tags = event.params.tags
+
+  module.save()
 }

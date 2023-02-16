@@ -257,6 +257,28 @@ export class EVME_ModuleStatusUpdated__Params {
   }
 }
 
+export class EVME_ModuleTags extends EthereumEvent {
+  get params(): EVME_ModuleTags__Params {
+    return new EVME_ModuleTags__Params(this);
+  }
+}
+
+export class EVME_ModuleTags__Params {
+  _event: EVME_ModuleTags;
+
+  constructor(event: EVME_ModuleTags) {
+    this._event = event;
+  }
+
+  get module(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get tags(): Array<i32> {
+    return this._event.parameters[1].value.toI32Array();
+  }
+}
+
 export class EVME_ModuleUpdated extends EthereumEvent {
   get params(): EVME_ModuleUpdated__Params {
     return new EVME_ModuleUpdated__Params(this);
@@ -842,6 +864,40 @@ export class UpdateFeeReceiptCall__Outputs {
   _call: UpdateFeeReceiptCall;
 
   constructor(call: UpdateFeeReceiptCall) {
+    this._call = call;
+  }
+}
+
+export class SetModuleTagsCall extends EthereumCall {
+  get inputs(): SetModuleTagsCall__Inputs {
+    return new SetModuleTagsCall__Inputs(this);
+  }
+
+  get outputs(): SetModuleTagsCall__Outputs {
+    return new SetModuleTagsCall__Outputs(this);
+  }
+}
+
+export class SetModuleTagsCall__Inputs {
+  _call: SetModuleTagsCall;
+
+  constructor(call: SetModuleTagsCall) {
+    this._call = call;
+  }
+
+  get _module(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get tags(): Array<i32> {
+    return this._call.inputValues[1].value.toI32Array();
+  }
+}
+
+export class SetModuleTagsCall__Outputs {
+  _call: SetModuleTagsCall;
+
+  constructor(call: SetModuleTagsCall) {
     this._call = call;
   }
 }

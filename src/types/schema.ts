@@ -410,6 +410,23 @@ export class Module extends Entity {
     this.set("active_install", Value.fromBigInt(value));
   }
 
+  get tags(): Array<i32> | null {
+    let value = this.get("tags");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toI32Array();
+    }
+  }
+
+  set tags(value: Array<i32> | null) {
+    if (value === null) {
+      this.unset("tags");
+    } else {
+      this.set("tags", Value.fromI32Array(value as Array<i32>));
+    }
+  }
+
   get createdAtTimestamp(): BigInt {
     let value = this.get("createdAtTimestamp");
     return value.toBigInt();

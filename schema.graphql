@@ -36,5 +36,6 @@ type Module @entity {
   fee: BigInt!
   status: Int!
   active_install: BigInt!
+  tags: [Int!]
   createdAtTimestamp: BigInt!
 }
